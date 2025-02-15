@@ -1,101 +1,116 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
+import Link from "next/link";
 
-export default function Home() {
+import { Input } from "@/components/Input";
+import { Modal } from "@/components/Modal";
+
+import { DotsThree, MagnifyingGlass, Trash } from "@phosphor-icons/react";
+
+export default function HomePage() {
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  async function handleDelete() {
+    setShowModal(true);
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <section className="w-full h-full">
+      <h1 className="font-bold text-3xl">Clientes</h1>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+      {/* Container */}
+      <div className="mt-8 bg-foreground border border-gray-dark rounded-lg p-8 w-full h-auto space-y-8 text-white">
+        {/* Container header */}
+        <div className="flex items-center justify-between">
+          <div className="w-[350px]">
+            <Input
+              placeholder="Pesquisa por nome ou email"
+              icon={<MagnifyingGlass size={24} />}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          </div>
+          <button
+            onClick={handleDelete}
+            className="py-2 px-4 rounded-md bg-red-600 text-white font-semibold flex items-center justify-center gap-2"
           >
-            Read our docs
-          </a>
+            <span>Excluir selecionados</span>
+            <Trash size={20} weight="bold" />
+          </button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        {/* Container Table */}
+        <div className="border border-gray-dark rounded-md overflow-hidden">
+          <table className="w-full table-auto text-sm border-collapse">
+            <thead className="text-left">
+              <tr className="">
+                <th className="border-b-2 border-gray-dark p-4 text-nowrap text-[#D4D4D8]">
+                  <input type="checkbox" />
+                </th>
+                <th className="border-b-2 border-gray-dark p-4 text-nowrap text-[#D4D4D8]">
+                  Nome
+                </th>
+                <th className="border-b-2 border-gray-dark p-4 text-nowrap text-[#D4D4D8]">
+                  E-mail
+                </th>
+                <th className="border-b-2 border-gray-dark p-4 text-nowrap text-[#D4D4D8]">
+                  Telefone
+                </th>
+                <th className="border-b-2 border-gray-dark p-4 text-nowrap text-[#D4D4D8]">
+                  Nascimento
+                </th>
+                <th className="border-b-2 border-gray-dark p-4 text-nowrap text-[#D4D4D8]">
+                  Endereço
+                </th>
+                <th className="border-b-2 border-gray-dark p-4 text-nowrap text-[#D4D4D8]"></th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-dark">
+              {Array.from({ length: 6 }).map((_, index) => {
+                return (
+                  <tr
+                    key={index}
+                    className="last:border-b-0 duration-200 hover:bg-[#09090B]/70 font-bold"
+                  >
+                    <td className="p-4">
+                      <input type="checkbox" />
+                    </td>
+                    <td className="p-4">Lucas</td>
+                    <td className="p-4">lucas@email.com</td>
+                    <td className="p-4">(42) 99999-9999</td>
+                    <td className="p-4">01/01/2000</td>
+                    <td className="p-4">Rua XYZ</td>
+                    <td className="">
+                      <Link
+                        href={`/edit-client/${index}`}
+                        className="rounded-md cursor-pointer flex items-center justify-center w-8 h-8 duration-200 hover:bg-[#52525B]"
+                      >
+                        <DotsThree size={24} weight="bold" />
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Container footer */}
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-sm text-[#A1A1AA] font-bold">
+            1 de 10 linhas selecionadas
+          </span>
+
+          <div className="flex items-center justify-end gap-4">
+            <button className="py-3 px-6 text-sm font-bold rounded-lg cursor-pointer bg-[#09090B] duration-200">
+              Anterior
+            </button>
+            <button className="py-3 px-6 text-sm font-bold rounded-lg cursor-pointer bg-[#52525B] duration-200 hover:bg-[#52525B]/50">
+              Próxima
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {showModal && <Modal setShowModal={setShowModal} />}
+    </section>
   );
 }
