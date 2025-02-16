@@ -37,10 +37,21 @@ export default {
             opacity: "0",
           },
         },
+        fadeX: {
+          "0%": {
+            transform: "translateX(50px)",
+            opacity: "0",
+          },
+          "100%": {
+            transform: "translateX(0)",
+            opacity: "1",
+          },
+        }
       },
       animation: {
         "show-modal": "show .15s ease-in",
         "hide-modal": "hide .15s ease-out",
+        "fade-in": "fadeX .2s ease-in-out",
       },
     },
   },

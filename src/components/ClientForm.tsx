@@ -1,8 +1,10 @@
 "use client";
 import Link from "next/link";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 import { Input } from "./Input";
 import { MapPin } from "@phosphor-icons/react/dist/ssr";
@@ -15,10 +17,13 @@ import {
   Plus,
   TextT,
 } from "@phosphor-icons/react";
-import { createClient } from "@/services/client";
+import { createClient, updateClient } from "@/services/client";
+import { Client } from "@/app/page";
 
 type Props = {
-  action?: "create" | "edit";
+  action?: "create" | "update";
+  clientId?: string
+  userData?: Client
 };
 
 const clientSchema = z.object({
@@ -36,16 +41,19 @@ const clientSchema = z.object({
 
 type ClientSchema = z.infer<typeof clientSchema>;
 
-export function ClientForm({ action = "create" }: Props) {
+export function ClientForm({ action = "create", clientId, userData }: Props) {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
+    reset,
   } = useForm<ClientSchema>({
     resolver: zodResolver(clientSchema),
   });
 
   async function onSubmit(data: ClientSchema) {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
     if (action === "create") {
       const response = await createClient(data);
 
@@ -53,13 +61,30 @@ export function ClientForm({ action = "create" }: Props) {
       if (response.error) {
         alert(response.error);
       } else {
-        alert("Client created successfully!");
+        alert(response.message);
       }
     }
+
+    if (action === 'update') {
+      const response = await updateClient(clientId as string, data);
+
+      console.log(response);
+      if (response.error) {
+        alert(response.error);
+      } else {
+        alert(response.message);
+      }
+    }
+    router.push('/')    
   }
 
+  useEffect(() => {
+    if (userData)
+      reset(userData)
+  }, [userData])
+
   return (
-    <div className="mt-8 bg-foreground border border-gray-dark rounded-lg p-8 w-full h-auto space-y-8 text-white">
+    <div className="animate-fade-in mt-8 bg-foreground border border-gray-dark rounded-lg p-8 w-full h-auto space-y-8 text-white">
       <form
         id="clientForm"
         onSubmit={handleSubmit(onSubmit)}
@@ -105,7 +130,7 @@ export function ClientForm({ action = "create" }: Props) {
         <div className="col-span-full w-full flex items-center justify-end gap-4 font-bold">
           <Link
             href="/"
-            className="py-3 px-4 rounded-lg bg-[#4B4B4B] duration-200 hover:bg-[#4B4B4B]/50"
+            className="h-12 w-[100px] flex items-center justify-center rounded-lg bg-[#4B4B4B] duration-200 hover:bg-[#4B4B4B]/50"
           >
             Cancelar
           </Link>
@@ -113,19 +138,25 @@ export function ClientForm({ action = "create" }: Props) {
             formTarget="clientForm"
             formAction="clientForm"
             type="submit"
-            className="py-3 px-4 rounded-lg bg-[#16A34A] duration-200 hover:bg-[#16A34A]/50 flex items-center justify-center gap-2"
+            className="h-12 w-[130px] rounded-lg bg-[#16A34A] duration-200 hover:bg-[#16A34A]/50 flex items-center justify-center gap-2"
           >
-            {action === "create" ? (
-              <>
-                Cadastrar
-                <Plus size={20} weight="bold" />
-              </>
-            ) : (
-              <>
-                Editar
-                <PencilSimple size={20} weight="bold" />
-              </>
-            )}
+            {
+              isSubmitting ? (
+                <div className="flex w-full items-center justify-center">
+                  <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                </div>
+              ) : action === "create" ? (
+                <>
+                  Cadastrar
+                  <Plus size={20} weight="bold" />
+                </>
+              ) : (
+                <>
+                  Editar
+                  <PencilSimple size={20} weight="bold" />
+                </>
+              )
+            }
           </button>
         </div>
       </form>

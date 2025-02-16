@@ -2,7 +2,7 @@ import { InputHTMLAttributes, JSX } from "react";
 type Props = InputHTMLAttributes<HTMLInputElement> & {
   type?: string;
   placeholder: string;
-  icon: JSX.Element;
+  icon?: JSX.Element;
   error?: string;
 };
 

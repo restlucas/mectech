@@ -9,17 +9,82 @@ type ClientProps = {
   address: string;
 };
 
-// GET Actions
-async function getClients() {
-  return NextResponse.json({
-    type: "success",
-    message: "Success on retrieve clients list",
-    code: 202,
-  });
+const PAGE_SIZE = 10;
+
+async function getClients(page: number, search: string) {
+  const filters = search
+    ? {
+        OR: [
+          { name: { contains: search } },
+          { email: { contains: search } },
+        ],
+      }
+    : {};
+
+    console.log(filters)
+  try {
+    const clients = await prisma.client.findMany({
+      where: filters,
+      skip: (page - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+      orderBy: {
+        createdAt: 'desc'
+      },
+      select: {
+        id: true,
+        name: true,
+        phone: true,
+        email: true,
+        address: true,
+        birth: true,
+      }
+    })
+
+    const totalClients = await prisma.client.count()
+
+    return NextResponse.json({
+      type: "success",
+      message: "Success on retrieve clients list",
+      data: {
+        clients,
+        page,
+        totalPages: Math.ceil(totalClients / PAGE_SIZE),
+      },
+      code: 202,
+    });
+  } catch (error) {
+    console.log(error)
+  }
+  
 }
 
-// POST Actions
-export async function createClient(data: ClientProps) {
+async function getClient(clientId: string) {
+  try {
+    const client = await prisma.client.findFirst({
+      where: {
+        id: clientId
+      },
+      select: {
+        name: true,
+        phone: true,
+        email: true,
+        address: true,
+        birth: true,
+      }
+    })
+
+    return NextResponse.json({
+      type: "success",
+      message: "Success on fetch client data",
+      data: client,
+      code: 202,
+    });
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+async function createClient(data: ClientProps) {
   try {
     const clientAlreadyInCreated = await prisma.client.findFirst({
       where: {
@@ -63,19 +128,77 @@ export async function createClient(data: ClientProps) {
   }
 }
 
+async function updateClient(clientId: string, data: ClientProps) {
+  try {
+    await prisma.client.update({
+      where: {
+        id: clientId
+      },
+      data: data,
+    });
+
+    return NextResponse.json(
+      {
+        type: "success",
+        message: "Client updated successfully",
+        code: 201,
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Error updating client:", error);
+    return NextResponse.json(
+      {
+        type: "error",
+        message: "Internal Server Error",
+        code: 500,
+      },
+      { status: 500 }
+    );
+  }
+}
+
+async function deleteClient(clientId: string[]){
+  try {
+    await prisma.client.deleteMany({
+      where: {
+        id: { in: clientId }
+      }
+    })
+
+    return NextResponse.json(
+      {
+        type: "success",
+        message: "Client(s) delete successfully",
+        code: 201,
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 // Handlers
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const action = searchParams.get("action");
+
+  const action = searchParams.get("action") as string;
+  const clientId = searchParams.get("clientId") as string;
+  const page = searchParams.get("page");
+  const search = searchParams.get("search") as string;
 
   switch (action) {
     case "getClients":
-      return await getClients();
+      return await getClients(Number(page), search);
+    case "getClient":
+      return await getClient(clientId);
   }
 }
 
 export async function POST(request: NextRequest) {
   const { searchParams } = new URL(request.url);
+
   const action = searchParams.get("action");
 
   switch (action) {
@@ -83,4 +206,43 @@ export async function POST(request: NextRequest) {
       const body = await request.json();
       return await createClient(body);
   }
+}
+
+export async function PUT(request: NextRequest){
+  const { searchParams } = new URL(request.url);
+
+  const action = searchParams.get("action") as string;
+  const clientId = searchParams.get("clientId") as string;
+
+
+  switch (action) {
+    case "updateClient":
+      const body = await request.json();
+      return await updateClient(clientId, body);
+
+    default:
+      return new Response(
+        JSON.stringify({ error: 'Missing action or clientId' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+        
+  }
+}
+
+export async function DELETE(request: NextRequest){
+  const { searchParams } = new URL(request.url)
+  const action = searchParams.get('action') as string
+
+  switch(action) {
+    case 'deleteClient':
+      const body = await request.json()
+      return await deleteClient(body)
+
+    default:
+      return new Response(
+        JSON.stringify({ error: 'Missing action or clientId' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+  }
+
 }
