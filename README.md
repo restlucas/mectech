@@ -66,7 +66,12 @@ Antes de começar, é necessário ter os seguintes programas instalados:
     npx prisma studio
     ```
 
-5. **Iniciar o projeto**
+5. **Gerar informações aleatórias para popular o banco de dados**
+    ```bash
+    npm run seed
+    ```
+
+6. **Iniciar o projeto**
     ```bash
     npm run dev
     ```
