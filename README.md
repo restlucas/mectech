@@ -36,7 +36,7 @@ Antes de começar, é necessário ter os seguintes programas instalados:
     npm install
     ```
 
-3. ***Configure as variáveis de ambiente***
+3. **Configure as variáveis de ambiente**
 
     Crie um arquivo .env na raiz do projeto e adicione as seguintes variáveis de ambiente:
     ```bash
@@ -56,7 +56,7 @@ Antes de começar, é necessário ter os seguintes programas instalados:
 
     Observação: Para obter o NEXTAUTH_SECRET, você pode gerar uma chave aleatória com o comando openssl rand -base64 32 ou usar qualquer outro método para gerar uma chave secreta segura
 
-4. ***Gerar as migrations do banco de dados com o Prisma***
+4. **Gerar as migrations do banco de dados com o Prisma**
     ```bash
     npx prisma migrate dev --name init
     ```
@@ -66,7 +66,7 @@ Antes de começar, é necessário ter os seguintes programas instalados:
     npx prisma studio
     ```
 
-5. ***Iniciar o projeto***
+5. **Iniciar o projeto**
     ```bash
     npm run dev
     ```
