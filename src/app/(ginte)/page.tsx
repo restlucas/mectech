@@ -8,7 +8,7 @@ import { Modal } from "@/components/Modal";
 import { DotsThree, MagnifyingGlass, Trash } from "@phosphor-icons/react";
 import { deleteClient, getClientsList } from "@/services/client";
 import { Checkbox } from "@/components/Checkbox";
-import { formatDate } from "../utilts/formatDate";
+import { formatDate } from "../../utilts/formatDate";
 
 export type Client = {
   id: string,
