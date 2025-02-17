@@ -72,7 +72,6 @@ export default function HomePage() {
   }
 
   const getClients = useCallback(async () => {
-    setLoading(true);
     const response = await getClientsList(pagination.page, search);
 
     setClients(response.data.clients);
