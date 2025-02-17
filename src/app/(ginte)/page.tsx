@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 
 import { Input } from "@/components/Input";
@@ -71,22 +71,21 @@ export default function HomePage() {
     getClients()
   }
 
-  async function getClients(){
-    const response = await getClientsList(pagination.page, search)
+  const getClients = useCallback(async () => {
+    setLoading(true);
+    const response = await getClientsList(pagination.page, search);
 
-    setClients(response.data.clients)
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        totalPages: response.data.totalPages
-      }
-    })
+    setClients(response.data.clients);
+    setPagination((prevState) => ({
+      ...prevState,
+      totalPages: response.data.totalPages,
+    }));
     setLoading(false);
-  }
+  }, [pagination.page, search]); 
 
   useEffect(() => {
     getClients()
-  } , [pagination.page, search])
+  } , [pagination.page, search, getClients])
 
   if (loading) {
     return (

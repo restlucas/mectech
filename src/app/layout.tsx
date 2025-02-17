@@ -3,7 +3,7 @@ import "./globals.css";
 import { AppProviders } from "@/components/AppProviders";
 
 export const metadata: Metadata = {
-    title: "CRUD Ginte",
+    title: "Ginte | CRUD",
     description: "A simple CRUD",
 };
   

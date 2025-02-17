@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -42,7 +41,6 @@ const clientSchema = z.object({
 type ClientSchema = z.infer<typeof clientSchema>;
 
 export function ClientForm({ action = "create", clientId, userData }: Props) {
-  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -78,7 +76,7 @@ export function ClientForm({ action = "create", clientId, userData }: Props) {
   useEffect(() => {
     if (userData)
       reset(userData)
-  }, [userData])
+  }, [userData, reset])
 
   return (
     <div className="animate-fade-in mt-8 bg-foreground border border-gray-dark rounded-lg p-8 w-full h-auto space-y-8 text-white">
