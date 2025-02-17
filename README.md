@@ -36,7 +36,7 @@ Antes de começar, é necessário ter os seguintes programas instalados:
     npm install
     ```
 
-3. ***Configure as variáveis de ambiente***
+3. **Configure as variáveis de ambiente**
 
     Crie um arquivo .env na raiz do projeto e adicione as seguintes variáveis de ambiente:
     ```bash
