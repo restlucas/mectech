@@ -18,7 +18,7 @@ import {
   TextT,
 } from "@phosphor-icons/react";
 import { createClient, updateClient } from "@/services/client";
-import { Client } from "@/app/page";
+import { Client } from "@/app/(ginte)/page";
 
 type Props = {
   action?: "create" | "update";
@@ -57,7 +57,6 @@ export function ClientForm({ action = "create", clientId, userData }: Props) {
     if (action === "create") {
       const response = await createClient(data);
 
-      console.log(response);
       if (response.error) {
         alert(response.error);
       } else {
@@ -68,14 +67,12 @@ export function ClientForm({ action = "create", clientId, userData }: Props) {
     if (action === 'update') {
       const response = await updateClient(clientId as string, data);
 
-      console.log(response);
       if (response.error) {
         alert(response.error);
       } else {
         alert(response.message);
       }
-    }
-    router.push('/')    
+    }  
   }
 
   useEffect(() => {

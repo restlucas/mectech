@@ -21,7 +21,6 @@ async function getClients(page: number, search: string) {
       }
     : {};
 
-    console.log(filters)
   try {
     const clients = await prisma.client.findMany({
       where: filters,
@@ -40,7 +39,9 @@ async function getClients(page: number, search: string) {
       }
     })
 
-    const totalClients = await prisma.client.count()
+    const totalFilteredClients = await prisma.client.count({
+      where: filters,
+    })
 
     return NextResponse.json({
       type: "success",
@@ -48,7 +49,7 @@ async function getClients(page: number, search: string) {
       data: {
         clients,
         page,
-        totalPages: Math.ceil(totalClients / PAGE_SIZE),
+        totalPages: Math.ceil(totalFilteredClients / PAGE_SIZE),
       },
       code: 202,
     });
@@ -96,7 +97,7 @@ async function createClient(data: ClientProps) {
       return NextResponse.json(
         {
           type: "error",
-          message: "Client already in our system",
+          message: "Cliente já está em nosso sistema",
           code: 409,
         },
         { status: 409 }
@@ -110,13 +111,13 @@ async function createClient(data: ClientProps) {
     return NextResponse.json(
       {
         type: "success",
-        message: "Client created successfully",
+        message: "Cliente criado com sucesso",
         code: 201,
       },
       { status: 201 }
     );
   } catch (error) {
-    console.error("Error creating client:", error);
+    console.error("Error ao criar cliente:", error);
     return NextResponse.json(
       {
         type: "error",
@@ -140,13 +141,13 @@ async function updateClient(clientId: string, data: ClientProps) {
     return NextResponse.json(
       {
         type: "success",
-        message: "Client updated successfully",
+        message: "Cliente editado com sucesso",
         code: 201,
       },
       { status: 201 }
     );
   } catch (error) {
-    console.error("Error updating client:", error);
+    console.error("Erro ao editar cliente:", error);
     return NextResponse.json(
       {
         type: "error",
@@ -169,13 +170,21 @@ async function deleteClient(clientId: string[]){
     return NextResponse.json(
       {
         type: "success",
-        message: "Client(s) delete successfully",
+        message: "Clientes deletados com sucesso",
         code: 201,
       },
       { status: 201 }
     );
   } catch (error) {
-    console.log(error)
+    console.error("Erro ao excluir clientes:", error);
+    return NextResponse.json(
+      {
+        type: "error",
+        message: "Internal Server Error",
+        code: 500,
+      },
+      { status: 500 }
+    );
   }
 }
 

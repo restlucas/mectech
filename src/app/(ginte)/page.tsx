@@ -8,6 +8,7 @@ import { Modal } from "@/components/Modal";
 import { DotsThree, MagnifyingGlass, Trash } from "@phosphor-icons/react";
 import { deleteClient, getClientsList } from "@/services/client";
 import { Checkbox } from "@/components/Checkbox";
+import { formatDate } from "../utilts/formatDate";
 
 export type Client = {
   id: string,
@@ -65,6 +66,7 @@ export default function HomePage() {
 
     setShowModal(false)
     setDeleting(false)
+    setSearch("")
     setSelectedClients([])
     getClients()
   }
@@ -164,13 +166,13 @@ export default function HomePage() {
   }
 
   return (
-    <section className="w-full h-full">
+    <section className="w-full h-auto">
       <h1 className="font-bold text-3xl">Clientes</h1>
 
       {/* Container */}
-      <div className="mt-8 bg-foreground border border-gray-dark rounded-lg p-8 w-full h-auto space-y-8 text-white">
+      <div className="mt-8 mb-32 bg-foreground border border-gray-dark rounded-lg p-8 w-full h-auto space-y-8 text-white">
         {/* Container header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="w-[300px]">
             <Input
               placeholder="Pesquisa por nome ou email"
@@ -182,7 +184,7 @@ export default function HomePage() {
           <button
             onClick={() => setShowModal(true)}
             disabled={selectedClients.length === 0}
-            className={`py-2 px-4 rounded-md text-white font-semibold flex items-center justify-center gap-2 duration-200 ${selectedClients.length === 0 ? 'bg-[#09090B]' : 'bg-red-600 hover:bg-red-600/50'}`} 
+            className={`py-2 px-4 rounded-md text-white text-nowrap font-semibold flex items-center justify-center gap-2 duration-200 ${selectedClients.length === 0 ? 'bg-[#09090B]' : 'bg-red-600 hover:bg-red-600/50'}`} 
           >
             <span>Excluir selecionados</span>
             <Trash size={20} weight="bold" />
@@ -191,7 +193,7 @@ export default function HomePage() {
 
         {/* Container Table */}
         <div className="border border-gray-dark rounded-md overflow-x-scroll min-[1360px]:overflow-x-hidden">
-          <table className="w-full table-auto text-sm border-collapse">
+          <table className="w-full table-auto text-xs min-[900px]:text-sm border-collapse">
             <thead className="text-left">
               <tr className="">
                 <th className="border-b-2 border-gray-dark p-4 text-nowrap text-[#D4D4D8]">
@@ -228,7 +230,7 @@ export default function HomePage() {
                     <td className="p-4 text-nowrap">{client.name}</td>
                     <td className="p-4 text-nowrap">{client.email}</td>
                     <td className="p-4 text-nowrap">{client.phone}</td>
-                    <td className="p-4 text-nowrap">{client.birth}</td>
+                    <td className="p-4 text-nowrap">{formatDate(client.birth)}</td>
                     <td className="p-4 text-nowrap">{client.address}</td>
                     <td className="p-4">
                       <Link
@@ -246,18 +248,18 @@ export default function HomePage() {
         </div>
 
         {/* Container footer */}
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-sm text-[#A1A1AA] font-bold">
+        <div className="flex flex-col min-[900px]:flex-row items-center justify-between gap-4 text-xs min-[900px]:text-sm">
+          <span className="text-[#A1A1AA] font-bold">
             {selectedClients.length} de 10 linhas selecionadas
           </span>
 
-          <p className="text-sm font-bold text-[#A1A1AA]">Page {pagination.page} of {pagination.totalPages}</p>
+          <p className="font-bold text-[#A1A1AA] text-center">Page {pagination.page} of {pagination.totalPages}</p>
  
           <div className="flex items-center justify-end gap-4">
-            <button onClick={() => handlePagination('previous')} disabled={pagination.page === 1} className={`py-3 px-6 text-sm font-bold rounded-lg cursor-pointer ${pagination.page === 1 ? 'bg-[#09090B] duration-200 text-white/50' : 'bg-[#52525B] duration-200 hover:bg-[#52525B]/50'}`}>
+            <button onClick={() => handlePagination('previous')} disabled={pagination.page === 1} className={`py-3 px-6 font-bold rounded-lg cursor-pointer ${pagination.page === 1 ? 'bg-[#09090B] duration-200 text-white/50' : 'bg-[#52525B] duration-200 hover:bg-[#52525B]/50'}`}>
               Anterior
             </button>
-            <button onClick={() => handlePagination('next')} disabled={pagination.page === pagination.totalPages} className={`py-3 px-6 text-sm font-bold rounded-lg cursor-pointer  ${pagination.page === pagination.totalPages ? 'bg-[#09090B] text-white/50' : 'bg-[#52525B] duration-200 hover:bg-[#52525B]/50'}`}>
+            <button onClick={() => handlePagination('next')} disabled={pagination.page === pagination.totalPages} className={`py-3 px-6 font-bold rounded-lg cursor-pointer  ${pagination.page === pagination.totalPages ? 'bg-[#09090B] text-white/50' : 'bg-[#52525B] duration-200 hover:bg-[#52525B]/50'}`}>
               Próxima
             </button>
           </div>

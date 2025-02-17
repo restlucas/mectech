@@ -1,6 +1,6 @@
 "use client";
 
-import { Client } from "@/app/page";
+import { Client } from "@/app/(ginte)/page";
 import { ClientForm } from "@/components/ClientForm";
 import { getClient } from "@/services/client";
 import { CaretCircleLeft } from "@phosphor-icons/react";
@@ -15,7 +15,6 @@ export default function EditClientPage() {
   useEffect(() => {
     const getClientInfo = async (clientId: string) => {
       const response = await getClient(clientId)
-      console.log(response.data)
       setUserData(response.data)
     }
 
