@@ -18,6 +18,7 @@ import {
 } from "@phosphor-icons/react";
 import { createClient, updateClient } from "@/services/client";
 import { Client } from "@/app/(ginte)/page";
+import { useRouter } from "next/navigation";
 
 type Props = {
   action?: "create" | "update";
@@ -41,6 +42,7 @@ const clientSchema = z.object({
 type ClientSchema = z.infer<typeof clientSchema>;
 
 export function ClientForm({ action = "create", clientId, userData }: Props) {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -58,7 +60,8 @@ export function ClientForm({ action = "create", clientId, userData }: Props) {
       if (response.error) {
         alert(response.error);
       } else {
-        alert(response.message);
+        alert(response.message)
+        router.push('/')
       }
     }
 
@@ -69,6 +72,7 @@ export function ClientForm({ action = "create", clientId, userData }: Props) {
         alert(response.error);
       } else {
         alert(response.message);
+        router.push('/')
       }
     }  
   }
