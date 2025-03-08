@@ -23,7 +23,7 @@ Projeto em Next.js criado seguindo design figma
    npm install
    ```
 
-   3. **Iniciando a aplicação**
+3. **Iniciando a aplicação**
    ```bash
    npm run dev
    ```
