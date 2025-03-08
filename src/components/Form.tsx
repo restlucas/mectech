@@ -122,13 +122,13 @@ export function NewOrderForm() {
           <button
             type="button"
             onClick={() => handleToStore("items")}
-            className="rounded-md text-sm font-semibold text-white bg-foreground-red w-full flex-1 py-1 duration-200 hover:bg-red-600"
+            className="rounded-md text-sm font-semibold text-white bg-foreground-red w-full flex-1 py-1 duration-200 hover:bg-red-900"
           >
             Adicionar Material
           </button>
           <button
             type="button"
-            className="rounded-md text-sm font-semibold text-white bg-foreground-red w-[140px] min-[1300px]:w-full  py-1 min-[1400px]:w-[140px] duration-200 hover:bg-red-600"
+            className="rounded-md text-sm font-semibold text-white bg-foreground-red w-[140px] min-[1300px]:w-full  py-1 min-[1400px]:w-[140px] duration-200 hover:bg-red-900"
           >
             Texto Livre
           </button>
@@ -182,13 +182,13 @@ export function NewOrderForm() {
           <button
             type="button"
             onClick={() => handleToStore("materials")}
-            className="rounded-md text-sm font-semibold text-white bg-foreground-green w-full flex-1 py-1 duration-200 hover:bg-green-600"
+            className="rounded-md text-sm font-semibold text-white bg-foreground-green w-full flex-1 py-1 duration-200 hover:bg-green-700"
           >
             Adicionar Material
           </button>
           <button
             type="button"
-            className="rounded-md text-sm font-semibold text-white bg-foreground-green w-[140px] min-[1300px]:w-full py-1 min-[1400px]:w-[140px] duration-200 hover:bg-green-600"
+            className="rounded-md text-sm font-semibold text-white bg-foreground-green w-[140px] min-[1300px]:w-full py-1 min-[1400px]:w-[140px] duration-200 hover:bg-green-700"
           >
             Texto Livre
           </button>
@@ -219,7 +219,7 @@ export function NewOrderForm() {
         </button>
         <button
           type="button"
-          className="rounded-md px-3 py-2 text-white bg-foreground-red duration-200 hover:bg-red-600"
+          className="rounded-md px-3 py-2 text-white bg-foreground-red duration-200 hover:bg-red-900"
         >
           Salvar
         </button>

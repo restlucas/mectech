@@ -92,6 +92,13 @@ export default function PrintPage() {
             width={84}
             height={84}
           />
+
+          <Image
+            alt="Gear pic"
+            src={"/assets/signature.png"}
+            width={170}
+            height={125}
+          />
         </div>
       </div>
     </div>
