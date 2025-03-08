@@ -33,19 +33,26 @@ export function PrintPreview() {
         <h3 className="font-semibold text-foreground-red text-base">
           Itens Adicionais
         </h3>
-        <ul className="mt-2">
-          {order.items.map((item, index) => {
-            return (
-              <li
-                key={index}
-                className="flex items-center justify-start gap-20 text-xs font-medium"
-              >
-                <span>{item.name}</span>
-                <span>{item.quantity}</span>
-              </li>
-            );
-          })}
-        </ul>
+        <div className="mt-2 border border-stroke text-xs rounded-md">
+          <table className="w-full border-collapse rounded-md">
+            <thead>
+              <tr className="text-left rtl:text-right bg-stroke">
+                <th className="px-3 py-1 w-[80%]">Item</th>
+                <th className="px-3 py-1 w-[20%]">Quantidade</th>
+              </tr>
+            </thead>
+            <tbody>
+              {order.items.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <td className="px-3 py-1">{item.name}</td>
+                    <td className="px-3 py-1">{item.quantity}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div>
@@ -57,7 +64,7 @@ export function PrintPreview() {
             return (
               <li
                 key={index}
-                className="flex items-center justify-start gap-20 text-xs font-medium"
+                className="flex items-center justify-start gap-40 text-xs font-medium"
               >
                 <span>{material.name}</span>
                 <span>{material.quantity}</span>
