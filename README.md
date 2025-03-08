@@ -1,13 +1,13 @@
-# Ginte CRUD
+# MECTECH
 
 Projeto em Next.js criado seguindo design figma
 
 ## Tecnologias Usadas
 
 - **Next.js**
-- **Tailwind CSS** (Framework CSS)
-- **Zustand** (Validação de dados)
-- **TypeScript** (Tipagem estática)
+- **Tailwind CSS**
+- **Zustand** 
+- **TypeScript** 
 
 ## Como Iniciar o Projeto
 
