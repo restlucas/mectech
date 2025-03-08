@@ -10,26 +10,34 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 button,
 input,
 textarea {
-  @apply outline-none border-none bg-transparent;
+  @apply outline-none bg-transparent;
 }
 
 input[type="date"] {
-  -webkit-appearance: none; 
+  -webkit-appearance: none;
   -moz-appearance: textfield;
-  appearance: none; 
+  appearance: none;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-  display: none; 
+  display: none;
 }
 
-::-webkit-scrollbar-thumb {
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* Para IE e Edge */
+  scrollbar-width: none; /* Para Firefox */
+}
+
+/* ::-webkit-scrollbar-thumb {
   border-radius: 9999px;
   background-color: #D4D4D8;
 }
@@ -42,4 +50,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
-}
+} */
