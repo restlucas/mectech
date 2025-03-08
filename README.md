@@ -1,4 +1,4 @@
-# Ginte CRUD
+# MECTECH
 
 Projeto em Next.js criado seguindo design figma
 
